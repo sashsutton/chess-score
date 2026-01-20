@@ -1,7 +1,7 @@
 
 export const getArchives = async (req, res) => {
     try{
-        const username = req.username;
+        const username = req.params.username;
         const url = `https://api.chess.com/pub/player/${username}/games/archives`;
 
         const response = await fetch(url, {
@@ -10,7 +10,7 @@ export const getArchives = async (req, res) => {
             }
         });
         if(!response.ok){
-            throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) return res.status(response.status).json({ error: "Chess.com error" });
         }
 
         const data = await response.json();
@@ -18,6 +18,6 @@ export const getArchives = async (req, res) => {
         res.json(data);
 
     } catch(error){
-        console.error("Could not fetch data:", error)
+        res.status(500).json({ error: error.message });
     }
 }

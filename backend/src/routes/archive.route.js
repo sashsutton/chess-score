@@ -1,10 +1,13 @@
-import {router} from "express"
-import {getArchives} from "../../test-fetch.js";
+import express from "express";
+import {getArchives} from "../controllers/archive.controller.js";
 
-const router = router();
+const router = express.Router();
 
 
-router.get("/archive", getArchives())
+router.get("/:username", getArchives);
+
+export default router;
+
 
 
 
